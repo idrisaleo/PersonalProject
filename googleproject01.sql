@@ -4,9 +4,11 @@ FROM GoogleProject..april
 
 -- selecting useful columns 
 
+
 SELECT ride_id, rideable_type, started_at, 
        ended_at, ABS(DATEDIFF(minute, started_at, ended_at))  AS trip_min,
 	   ABS(DATEDIFF(minute, started_at, ended_at))/60 AS trip_hour,
+	   DATENAME(WEEKDAY, "started_at") as day_of_week,
 	   start_station_name, end_station_name, member_casual
 FROM GoogleProject..april
 ORDER BY trip_min DESC

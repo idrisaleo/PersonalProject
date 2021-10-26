@@ -1,15 +1,16 @@
+# installing packages
+
 install.packages("tidyverse")
 install.packages("lubridate")
 
+# loading packages
+
 library(tidyverse)
 library(lubridate)
-
 library(ggplot2)
 library(readr)
 
-q2_2019 <- read_csv("Divvy_Trips_2019_Q2.csv")
-q3_2019 <- read_csv("Divvy_Trips_2019_Q3.csv")
-q4_2019 <- read_csv("Divvy_Trips_2019_Q4.csv")
+# importing the necessary datasets
 
 q1_2020 <- read_csvDivvy_Trips_2020_Q1 <-
   read_csv("Divvy_Trips_2020_Q1/Divvy_Trips_2020_Q1.csv")
@@ -18,15 +19,18 @@ q2_2019 <- Divvy_Trips_2019_Q2 <-
   read_csv("Divvy_Trips_2019_Q2/Divvy_Trips_2019_Q2")
 
 q3_2019 <- read_csv("Divvy_Trips_2019_Q3/Divvy_Trips_2019_Q3.csv")
+
 q4_2019 <- Divvy_Trips_2019_Q4 <-
   read_csv("Divvy_Trips_2019_Q4/Divvy_Trips_2019_Q4.csv")
 
+# checking the column names for any inconsistencies
 
 colnames(q2_2019)
 colnames(q3_2019)
 colnames(q4_2019)
 colnames(q1_2020)
 
+# renaming the datasets to have a uniform structure
 
 (q2_2019 <- rename(q2_2019, ride_id =  "01 - Rental Details Rental ID",
                   rideable_type ="01 - Rental Details Bike ID",
@@ -58,12 +62,14 @@ colnames(q1_2020)
                   end_station_id = to_station_id,
                   member_casual = usertype))
 
+# quickly scanning through the structure
 
 str(q2_2019)
 str(q3_2019)
 str(q4_2019)
 str(q1_2020)
 
+# formatting the selected column names as character 
 
 q2_2019 <- mutate(q2_2019, ride_id = as.character(ride_id),
                           rideable_type = as.character(rideable_type))
@@ -74,10 +80,14 @@ q3_2019 <- mutate(q3_2019, ride_id = as.character(ride_id),
 q4_2019 <- mutate(q4_2019, ride_id = as.character(ride_id),
                   rideable_type = as.character(rideable_type))
 
+# merging the different datasets into one single file
+
 all_trips <- bind_rows(q2_2019, q3_2019,q4_2019,q1_2020)
 
 
 View(all_trips)
+
+# deselecting missing columns
 
 all_trips <- all_trips %>%  
   select (-c("01 - Rental Details Duration In Seconds Uncapped",
@@ -91,12 +101,14 @@ all_trips <- all_trips %>%
                                    end_lat,
                                    end_lng))
                                    
-
+# getting a quick look into our new dataframe
 dim(all_trips)
 str(all_trips)
 table(all_trips$member_casual)
 tail(all_trips)
 
+
+# formatting the selected column, narrowing to two major categories
 
 all_trips <- all_trips %>%
   mutate(member_casual = recode(member_casual,

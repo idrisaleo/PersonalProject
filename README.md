@@ -1,2 +1,2 @@
-# PersonalProject
-Documenting my personal projects
+# SQLCodes
+Documenting my SQL codes
